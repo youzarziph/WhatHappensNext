@@ -37,7 +37,7 @@ types/
 ## Phase Roadmap
 
 - [x] Phase 1 — Core prediction engine
-- [ ] Phase 2 — Auth + save predictions (NextAuth + MongoDB)
+- [x] Phase 2 — Auth + save predictions (NextAuth + MongoDB)
 - [ ] Phase 3 — Pagination, search, filtering
 - [ ] Phase 4 — Dashboard, analytics, community voting
 - [ ] Phase 5 — Deploy to Vercel
