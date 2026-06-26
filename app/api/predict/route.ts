@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { generatePrediction } from "@/services/prediction";
+import { savePrediction } from "@/services/user";
+import { auth } from "@/auth";
 import { APIResponse, PredictionResult } from "@/types";
 
 export async function POST(req: NextRequest) {
@@ -15,6 +17,12 @@ export async function POST(req: NextRequest) {
     }
 
     const prediction = await generatePrediction(story);
+
+    // Save to DB if user is logged in
+    const session = await auth();
+    if (session?.user) {
+      await savePrediction((session.user as any).id, story, prediction);
+    }
 
     return NextResponse.json<APIResponse<PredictionResult>>({
       data: prediction,
