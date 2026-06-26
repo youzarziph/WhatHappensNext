@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -11,6 +11,11 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const handleSubmit = async () => {
     setError("");
@@ -78,7 +83,7 @@ export default function LoginPage() {
 
           <button
             onClick={handleSubmit}
-            disabled={loading || !email || !password}
+            disabled={!mounted || loading || !email || !password}
             className="w-full bg-purple-600 hover:bg-purple-700 disabled:bg-neutral-300 dark:disabled:bg-neutral-700 disabled:cursor-not-allowed text-white font-medium py-3 rounded-xl transition text-sm"
           >
             {loading ? "Signing in..." : "Sign in"}

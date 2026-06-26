@@ -28,6 +28,7 @@ export default async function HistoryPage({ searchParams }: Props) {
     <main className="min-h-screen bg-neutral-50 dark:bg-neutral-950">
       <div className="max-w-3xl mx-auto px-6 py-12">
 
+        {/* Header */}
         <div className="flex items-center justify-between mb-6">
           <div>
             <h1 className="text-2xl font-bold text-neutral-900 dark:text-neutral-100">
@@ -45,6 +46,7 @@ export default async function HistoryPage({ searchParams }: Props) {
           </Link>
         </div>
 
+        {/* Search */}
         <form method="GET" className="mb-10">
           <div className="flex gap-3 w-full">
             <input
@@ -71,6 +73,7 @@ export default async function HistoryPage({ searchParams }: Props) {
           </div>
         </form>
 
+        {/* Results */}
         {predictions.length === 0 ? (
           <div className="text-center py-20">
             <p className="text-neutral-500">
@@ -84,7 +87,7 @@ export default async function HistoryPage({ searchParams }: Props) {
             </Link>
           </div>
         ) : (
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-4 mb-10">
             {predictions.map((p: any) => (
               <div
                 key={p._id.toString()}
@@ -115,25 +118,38 @@ export default async function HistoryPage({ searchParams }: Props) {
           </div>
         )}
 
+        {/* Pagination */}
         {pages > 1 && (
-          <div className="flex items-center justify-center gap-2 mt-8">
+          <div className="flex items-center justify-center gap-2 mt-10 pt-8 border-t border-neutral-200 dark:border-neutral-700">
             {currentPage > 1 && (
               <Link
                 href={`/history?page=${currentPage - 1}${searchQuery ? `&search=${searchQuery}` : ""}`}
-                className="px-4 py-2 text-sm rounded-lg border border-neutral-200 dark:border-neutral-700 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition"
+                className="px-3 py-2 text-sm rounded-lg border border-neutral-200 dark:border-neutral-700 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition"
               >
-                Previous
+                ←
               </Link>
             )}
-            <span className="text-sm text-neutral-500">
-              Page {currentPage} of {pages}
-            </span>
+
+            {Array.from({ length: pages }, (_, i) => i + 1).map((pageNum) => (
+              <Link
+                key={pageNum}
+                href={`/history?page=${pageNum}${searchQuery ? `&search=${searchQuery}` : ""}`}
+                className={`px-3 py-2 text-sm rounded-lg border transition ${
+                  pageNum === currentPage
+                    ? "bg-purple-600 text-white border-purple-600"
+                    : "border-neutral-200 dark:border-neutral-700 hover:bg-neutral-100 dark:hover:bg-neutral-800"
+                }`}
+              >
+                {pageNum}
+              </Link>
+            ))}
+
             {currentPage < pages && (
               <Link
                 href={`/history?page=${currentPage + 1}${searchQuery ? `&search=${searchQuery}` : ""}`}
-                className="px-4 py-2 text-sm rounded-lg border border-neutral-200 dark:border-neutral-700 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition"
+                className="px-3 py-2 text-sm rounded-lg border border-neutral-200 dark:border-neutral-700 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition"
               >
-                Next
+                →
               </Link>
             )}
           </div>
