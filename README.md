@@ -32,6 +32,7 @@ NEXTAUTH_URL=http://localhost:3000
 
 ## Project Structure
 
+```
 app/
   (auth)/
     login/           → Login page
@@ -58,6 +59,7 @@ services/
 types/
   index.ts           → Shared TypeScript interfaces
 auth.ts              → NextAuth config
+```
 
 ## Features
 
