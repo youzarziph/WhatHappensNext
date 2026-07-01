@@ -7,34 +7,78 @@ export default function Navbar() {
   const { data: session } = useSession();
 
   return (
-    <nav className="border-b border-neutral-200 dark:border-neutral-800 px-6 py-4">
-      <div className="max-w-3xl mx-auto flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <Link href="/" className="text-lg font-semibold tracking-tight">
-            What Happens Next?
+    <div style={{ width: "100%", padding: "24px 24px 12px 24px" }}>
+      <nav
+        style={{
+          maxWidth: "1280px",
+          margin: "0 auto",
+          backgroundColor: "#ffffff",
+          borderRadius: "48px",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          padding: "12px 24px",
+        }}
+      >
+        <Link
+          href="/"
+          style={{
+            fontSize: "16px",
+            fontWeight: 600,
+            color: "#000000",
+            textDecoration: "none",
+            letterSpacing: "-0.02em",
+          }}
+        >
+          What Happens Next?
+        </Link>
+
+        <div style={{ display: "flex", alignItems: "center", gap: "32px" }}>
+          <Link
+            href="/"
+            style={{
+              fontSize: "14px",
+              color: "#444444",
+              textDecoration: "none",
+              letterSpacing: "-0.02em",
+            }}
+          >
+            Predict
           </Link>
-          <span className="text-xs bg-purple-100 text-purple-700 dark:bg-purple-900 dark:text-purple-300 px-2 py-0.5 rounded-full">
-            AI
-          </span>
+          {session && (
+            <Link
+              href="/history"
+              style={{
+                fontSize: "14px",
+                color: "#444444",
+                textDecoration: "none",
+                letterSpacing: "-0.02em",
+              }}
+            >
+              History
+            </Link>
+          )}
         </div>
 
-        <div className="flex items-center gap-4">
+        <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
           {session ? (
             <>
-              <Link
-                href="/history"
-                className="text-sm text-neutral-500 hover:text-neutral-800 dark:hover:text-neutral-200 transition"
-              >
-                History
-              </Link>
-
-              <span className="text-sm text-neutral-500">
-                Hi, {session.user?.name}
+              <span style={{ fontSize: "14px", color: "#979797", letterSpacing: "-0.02em" }}>
+                {session.user?.name}
               </span>
-
               <button
                 onClick={() => signOut({ callbackUrl: "/" })}
-                className="text-sm text-neutral-500 hover:text-red-500 transition"
+                style={{
+                  backgroundColor: "#000000",
+                  color: "#ffffff",
+                  fontSize: "14px",
+                  fontWeight: 500,
+                  padding: "8px 20px",
+                  borderRadius: "4px",
+                  border: "none",
+                  cursor: "pointer",
+                  letterSpacing: "-0.02em",
+                }}
               >
                 Sign out
               </button>
@@ -43,21 +87,34 @@ export default function Navbar() {
             <>
               <Link
                 href="/login"
-                className="text-sm text-neutral-500 hover:text-neutral-800 transition"
+                style={{
+                  fontSize: "14px",
+                  color: "#444444",
+                  textDecoration: "none",
+                  letterSpacing: "-0.02em",
+                }}
               >
                 Sign in
               </Link>
-
               <Link
                 href="/register"
-                className="text-sm bg-purple-600 hover:bg-purple-700 text-white px-4 py-1.5 rounded-lg transition"
+                style={{
+                  backgroundColor: "#000000",
+                  color: "#ffffff",
+                  fontSize: "14px",
+                  fontWeight: 500,
+                  padding: "8px 20px",
+                  borderRadius: "4px",
+                  textDecoration: "none",
+                  letterSpacing: "-0.02em",
+                }}
               >
                 Sign up
               </Link>
             </>
           )}
         </div>
-      </div>
-    </nav>
+      </nav>
+    </div>
   );
 }

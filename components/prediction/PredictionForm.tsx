@@ -44,28 +44,72 @@ export default function PredictionForm({ onResult, onLoading }: Props) {
   };
 
   return (
-    <div className="flex flex-col gap-4">
-      <div className="flex flex-col gap-1.5">
-        <label className="text-sm font-medium text-neutral-700 dark:text-neutral-300">
-          Paste your story, chapter, or scene
+    <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+      <div style={{
+        backgroundColor: "#ffffff",
+        borderRadius: "32px",
+        padding: "24px",
+        display: "flex",
+        flexDirection: "column",
+        gap: "16px",
+      }}>
+        <label style={{
+          fontSize: "12px",
+          fontFamily: "JetBrains Mono, monospace",
+          letterSpacing: "0.05em",
+          textTransform: "uppercase",
+          color: "#444444",
+        }}>
+          Your Story
         </label>
         <textarea
           value={story}
           onChange={(e) => setStory(e.target.value)}
-          placeholder="e.g. Naruto has entered the battlefield. Madara has revealed his true power..."
-          rows={6}
-          className="w-full rounded-xl border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-4 py-3 text-sm text-neutral-800 dark:text-neutral-200 placeholder:text-neutral-400 focus:outline-none focus:ring-2 focus:ring-purple-500 resize-none transition"
+          placeholder="Naruto has entered the battlefield. Madara has revealed his true power..."
+          rows={7}
+          style={{
+            width: "100%",
+            background: "transparent",
+            border: "none",
+            outline: "none",
+            resize: "none",
+            fontSize: "16px",
+            lineHeight: 1.5,
+            letterSpacing: "-0.02em",
+            color: "#000000",
+            fontFamily: "Inter, sans-serif",
+          }}
         />
-        <div className="flex justify-between items-center">
-          <span className="text-xs text-neutral-400">{story.length} / 3000</span>
-          {error && <span className="text-xs text-red-500">{error}</span>}
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+          <span style={{
+            fontSize: "12px",
+            fontFamily: "JetBrains Mono, monospace",
+            color: "#979797",
+          }}>
+            {story.length} / 3000
+          </span>
+          {error && (
+            <span style={{ fontSize: "12px", color: "#ef4444" }}>{error}</span>
+          )}
         </div>
       </div>
 
       <button
         onClick={handleSubmit}
         disabled={!mounted || story.trim().length < 20}
-        className="w-full bg-purple-600 hover:bg-purple-700 disabled:bg-neutral-300 dark:disabled:bg-neutral-700 disabled:cursor-not-allowed text-white font-medium py-3 rounded-xl transition text-sm"
+        style={{
+          width: "100%",
+          backgroundColor: !mounted || story.trim().length < 20 ? "#979797" : "#000000",
+          color: "#ffffff",
+          fontSize: "14px",
+          fontWeight: 500,
+          padding: "16px",
+          borderRadius: "4px",
+          border: "none",
+          cursor: !mounted || story.trim().length < 20 ? "not-allowed" : "pointer",
+          letterSpacing: "-0.02em",
+          transition: "background-color 0.2s",
+        }}
       >
         Predict What Happens Next →
       </button>

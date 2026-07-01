@@ -6,24 +6,33 @@ interface Props {
 }
 
 const ConfidenceBar = ({ value }: { value: number }) => (
-  <div className="w-full bg-neutral-100 dark:bg-neutral-800 rounded-full h-2">
-    <div
-      className="bg-purple-500 h-2 rounded-full transition-all duration-700"
-      style={{ width: `${value}%` }}
-    />
+  <div style={{
+    width: "100%",
+    backgroundColor: "#e5e7eb",
+    borderRadius: "99px",
+    height: "4px",
+  }}>
+    <div style={{
+      width: `${value}%`,
+      height: "4px",
+      borderRadius: "99px",
+      backgroundColor: "#000000",
+      transition: "width 0.7s ease",
+    }} />
   </div>
 );
 
 const SurvivalBadge = ({ chance }: { chance: number }) => {
-  const color =
-    chance >= 75
-      ? "bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300"
-      : chance >= 45
-      ? "bg-yellow-100 text-yellow-700 dark:bg-yellow-900 dark:text-yellow-300"
-      : "bg-red-100 text-red-700 dark:bg-red-900 dark:text-red-300";
-
+  const bg = chance >= 75 ? "#d1ffca" : chance >= 45 ? "#fff100" : "#fecaca";
   return (
-    <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${color}`}>
+    <span style={{
+      fontSize: "12px",
+      fontFamily: "JetBrains Mono, monospace",
+      backgroundColor: bg,
+      borderRadius: "20px",
+      padding: "2px 8px",
+      whiteSpace: "nowrap",
+    }}>
       {chance}%
     </span>
   );
@@ -31,68 +40,155 @@ const SurvivalBadge = ({ chance }: { chance: number }) => {
 
 export default function PredictionResult({ result, onReset }: Props) {
   return (
-    <div className="flex flex-col gap-6">
-      <div className="flex items-center gap-2">
-        <span className="text-xs bg-purple-100 text-purple-700 dark:bg-purple-900 dark:text-purple-300 px-3 py-1 rounded-full font-medium">
+    <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+
+      {/* Genre tag */}
+      <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+        <span style={{
+          fontSize: "12px",
+          fontFamily: "JetBrains Mono, monospace",
+          backgroundColor: "#fff100",
+          borderRadius: "20px",
+          padding: "4px 12px",
+          letterSpacing: "-0.03em",
+        }}>
           {result.genre}
         </span>
-        <span className="text-xs text-neutral-400">Genre detected</span>
+        <span style={{
+          fontSize: "12px",
+          fontFamily: "JetBrains Mono, monospace",
+          color: "#979797",
+        }}>
+          Genre detected
+        </span>
       </div>
 
-      <div className="flex flex-col gap-3 p-5 rounded-2xl border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-900">
-        <h2 className="text-sm font-semibold text-neutral-500 dark:text-neutral-400 uppercase tracking-wide">
+      {/* Main prediction */}
+      <div style={{
+        backgroundColor: "#ffffff",
+        borderRadius: "32px",
+        padding: "24px",
+        display: "flex",
+        flexDirection: "column",
+        gap: "16px",
+      }}>
+        <p style={{
+          fontSize: "12px",
+          fontFamily: "JetBrains Mono, monospace",
+          letterSpacing: "0.05em",
+          textTransform: "uppercase",
+          color: "#444444",
+        }}>
           What happens next
-        </h2>
-        <p className="text-neutral-800 dark:text-neutral-200 leading-relaxed">
+        </p>
+        <p style={{
+          fontSize: "18px",
+          lineHeight: 1.4,
+          letterSpacing: "-0.02em",
+          color: "#000000",
+        }}>
           {result.mainPrediction}
         </p>
-        <div className="flex flex-col gap-1.5 mt-1">
-          <div className="flex justify-between text-xs text-neutral-500">
-            <span>Prediction confidence</span>
-            <span className="font-medium">{result.confidence}%</span>
+        <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+          <div style={{ display: "flex", justifyContent: "space-between" }}>
+            <span style={{ fontSize: "12px", color: "#979797", fontFamily: "JetBrains Mono, monospace" }}>
+              Confidence
+            </span>
+            <span style={{ fontSize: "12px", fontFamily: "JetBrains Mono, monospace" }}>
+              {result.confidence}%
+            </span>
           </div>
           <ConfidenceBar value={result.confidence} />
         </div>
       </div>
 
+      {/* Character survival */}
       {result.characters.length > 0 && (
-        <div className="flex flex-col gap-3 p-5 rounded-2xl border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-900">
-          <h2 className="text-sm font-semibold text-neutral-500 dark:text-neutral-400 uppercase tracking-wide">
+        <div style={{
+          backgroundColor: "#ffffff",
+          borderRadius: "32px",
+          padding: "24px",
+          display: "flex",
+          flexDirection: "column",
+          gap: "16px",
+        }}>
+          <p style={{
+            fontSize: "12px",
+            fontFamily: "JetBrains Mono, monospace",
+            letterSpacing: "0.05em",
+            textTransform: "uppercase",
+            color: "#444444",
+          }}>
             Survival chances
-          </h2>
-          <div className="flex flex-col gap-3">
+          </p>
+          <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
             {result.characters.map((char) => (
-              <div key={char.name} className="flex items-center justify-between">
-                <span className="text-sm text-neutral-700 dark:text-neutral-300">
+              <div key={char.name} style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+                <span style={{
+                  fontSize: "14px",
+                  color: "#000000",
+                  letterSpacing: "-0.02em",
+                  minWidth: "100px",
+                }}>
                   {char.name}
                 </span>
-                <div className="flex items-center gap-3">
-                  <div className="w-28">
-                    <ConfidenceBar value={char.survivalChance} />
-                  </div>
-                  <SurvivalBadge chance={char.survivalChance} />
+                <div style={{ flex: 1 }}>
+                  <ConfidenceBar value={char.survivalChance} />
                 </div>
+                <SurvivalBadge chance={char.survivalChance} />
               </div>
             ))}
           </div>
         </div>
       )}
 
-      <div className="flex flex-col gap-3 p-5 rounded-2xl border border-dashed border-neutral-300 dark:border-neutral-600 bg-neutral-50 dark:bg-neutral-900">
-        <h2 className="text-sm font-semibold text-neutral-500 dark:text-neutral-400 uppercase tracking-wide">
+      {/* Alternative timeline */}
+      <div style={{
+        backgroundColor: "#f3f3f3",
+        borderRadius: "32px",
+        padding: "24px",
+        display: "flex",
+        flexDirection: "column",
+        gap: "12px",
+      }}>
+        <p style={{
+          fontSize: "12px",
+          fontFamily: "JetBrains Mono, monospace",
+          letterSpacing: "0.05em",
+          textTransform: "uppercase",
+          color: "#444444",
+        }}>
           Alternative timeline
-        </h2>
-        <p className="text-neutral-600 dark:text-neutral-400 leading-relaxed text-sm italic">
+        </p>
+        <p style={{
+          fontSize: "16px",
+          lineHeight: 1.5,
+          letterSpacing: "-0.02em",
+          color: "#000000",
+        }}>
           {result.alternativeTimeline}
         </p>
       </div>
 
+      {/* Reset */}
       <button
         onClick={onReset}
-        className="text-sm text-neutral-500 hover:text-purple-600 dark:hover:text-purple-400 transition underline underline-offset-2 text-center"
+        style={{
+          background: "none",
+          border: "none",
+          cursor: "pointer",
+          fontSize: "14px",
+          color: "#444444",
+          letterSpacing: "-0.02em",
+          textDecoration: "underline",
+          textUnderlineOffset: "4px",
+          textAlign: "center",
+          padding: "8px",
+        }}
       >
         Try another story
       </button>
+
     </div>
   );
 }

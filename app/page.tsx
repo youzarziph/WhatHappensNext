@@ -10,37 +10,98 @@ export default function Home() {
   const [result, setResult] = useState<TPredictionResult | null>(null);
   const [loading, setLoading] = useState(false);
 
+  const handleResult = (data: TPredictionResult) => {
+    setResult(data);
+    setLoading(false);
+  };
+
+  const handleLoading = (isLoading: boolean) => {
+    if (isLoading) {
+      setResult(null);
+      setLoading(true);
+    }
+  };
+
   return (
-    <main className="min-h-screen bg-neutral-50 dark:bg-neutral-950">
+    <main style={{ minHeight: "100vh", backgroundColor: "#e5e7eb" }}>
       <Navbar />
-      <div className="max-w-3xl mx-auto px-6 py-12">
-        {!result && (
-          <div className="mb-10 text-center flex flex-col gap-3">
-            <h1 className="text-4xl font-bold tracking-tight text-neutral-900 dark:text-neutral-100">
-              What Happens Next?
+
+      <div style={{ maxWidth: "720px", margin: "0 auto", padding: "48px 24px" }}>
+
+        {!result && !loading && (
+          <div style={{ marginBottom: "48px" }}>
+            <p style={{
+              fontSize: "12px",
+              fontFamily: "JetBrains Mono, monospace",
+              letterSpacing: "0.08em",
+              color: "#444444",
+              textTransform: "uppercase",
+              marginBottom: "16px",
+            }}>
+              AI Story Engine
+            </p>
+            <h1 style={{
+              fontSize: "72px",
+              fontWeight: 700,
+              lineHeight: 0.92,
+              letterSpacing: "-2.4px",
+              color: "#000000",
+              marginBottom: "24px",
+            }}>
+              WHAT HAPPENS{" "}
+              <span style={{ color: "#fff100", WebkitTextStroke: "2px #000000" }}>
+                NEXT?
+              </span>
             </h1>
-            <p className="text-neutral-500 dark:text-neutral-400 text-base max-w-md mx-auto">
+            <p style={{
+              fontSize: "18px",
+              lineHeight: 1.4,
+              letterSpacing: "-0.02em",
+              color: "#000000",
+              maxWidth: "480px",
+            }}>
               Paste any story, anime scene, book chapter, or movie summary.
-              Our AI predicts what comes next.
+              Get an AI prediction of what comes next.
             </p>
           </div>
         )}
 
         {loading && (
-          <div className="flex flex-col items-center gap-4 py-20">
-            <div className="w-8 h-8 border-2 border-purple-500 border-t-transparent rounded-full animate-spin" />
-            <p className="text-sm text-neutral-500">Analyzing your story...</p>
+          <div style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            gap: "16px",
+            padding: "96px 0",
+          }}>
+            <div style={{
+              width: "32px",
+              height: "32px",
+              border: "2px solid #000000",
+              borderTopColor: "transparent",
+              borderRadius: "50%",
+              animation: "spin 0.8s linear infinite",
+            }} />
+            <p style={{ fontSize: "14px", color: "#444444", letterSpacing: "-0.02em" }}>
+              Analyzing your story...
+            </p>
           </div>
         )}
 
         {!loading && !result && (
-          <PredictionForm onResult={setResult} onLoading={setLoading} />
+          <PredictionForm onResult={handleResult} onLoading={handleLoading} />
         )}
 
         {!loading && result && (
           <PredictionResult result={result} onReset={() => setResult(null)} />
         )}
       </div>
+
+      <style>{`
+        @keyframes spin {
+          to { transform: rotate(360deg); }
+        }
+      `}</style>
     </main>
   );
 }
